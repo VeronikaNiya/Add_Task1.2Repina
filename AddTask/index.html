@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<head>
+    <head>
+         <link rel="stylesheet" type="text/css" href="style.css">
+      </head>
+</head>
+<span class="game-title" id="message">Пятнашки</span>
+<form name = "myForm">
+    <div class="game">
+    <input class="game-item" type = "button" value = " " onclick = "game(0)"><!--0-->
+    <input class="game-item" type = "button" value = " " onclick = "game(1)"><!--1-->
+    <input class="game-item" type = "button" value = " " onclick = "game(2)"><!--2-->
+    <input class="game-item" type = "button" value = " " onclick = "game(3)"><!--3-->
+    <br>
+    <input class="game-item" type = "button" value = " " onclick = "game(4)"><!--4-->
+    <input class="game-item" type = "button" value = " " onclick = "game(5)"><!--5-->
+    <input class="game-item" type = "button" value = " " onclick = "game(6)"><!--6-->
+    <input class="game-item" type = "button" value = " " onclick = "game(7)"><!--7-->
+    <br>
+    <input class="game-item" type = "button" value = " " onclick = "game(8)"><!--8-->
+    <input class="game-item" type = "button" value = " " onclick = "game(9)"><!--9-->
+    <input class="game-item" type = "button" value = " " onclick = "game(10)"><!--10-->
+    <input class="game-item" type = "button" value = " " onclick = "game(11)"><!--11-->
+    <br>
+    <input class="game-item" type = "button" value = " " onclick = "game(12)"><!--12-->
+    <input class="game-item" type = "button" value = " " onclick = "game(13)"><!--13-->
+    <input class="game-item" type = "button" value = " " onclick = "game(14)"><!--14-->
+    <input class="game-item" type = "button" value = " " onclick = "game(15)"><!--15-->
+</div>
+    <input type = "button" value = "Play" class = "button" onclick = "newGame()"><!--16-->
+</form>
+</html>
+
+<script>
+    
+    var countStep;
+
+
+    function newGame(){
+          var f = document.myForm.elements;
+          var masNum = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15," "];
+          var lastNum = 15;
+          message = document.getElementById("message");
+          var win = false;
+          message.innerText = "Пятнашки";
+          countStep = 0;
+          var f = document.myForm.elements;
+          
+
+          for (var  i = 0; i < 16; i ++){
+          var a =Math.round(Math.random() * lastNum);//случайным образом определяем номер значения
+          f[i].value = masNum[a];//задаем значение для кнопки с номером
+          //убираем выбраный элемент из масива. Кладем на его место последний элемент масива
+          //длинну масива уменьшаем на единичку
+          masNum[a] = masNum[lastNum];
+          lastNum--;
+          }  
+        }
+        
+        function myChange(n, m){
+           var f = document.myForm.elements;
+           var f0 = f[n].value;
+           f[n].value = f[m].value;
+           f[m].value = f0;
+           countStep++;
+           checkWin();
+        }
+        
+
+
+        function game(n){
+          var f = document.myForm.elements;
+          
+          if ((n % 4 != 3) && (f[n + 1].value == ' ')) myChange(n, n + 1); //проверяем кнопку справа если она есть
+          if ((n % 4 != 0) && (f[n - 1].value == ' ')) myChange(n, n - 1); //проверяем кнопку слева если она есть 
+          if ((n <= 11) && (f[n + 4].value == ' ')) myChange(n, n + 4); //проверяем кнопку внизу
+          if ((n >= 4) && (f[n - 4].value == ' ')) myChange(n, n - 4); //проверяем кнопку вверху 
+        }
+
+        function checkWin(){
+            var f = document.myForm.elements;
+            for (var i = 0; i < 15; i++){
+                if (f[i].value != i+1)
+                    break;
+            if (i==14){
+                win = true;
+                message.innerText = "Победа за " + countStep +" ходов";
+                }
+            }
+        }
+
+</script>
